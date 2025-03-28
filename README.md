@@ -17,4 +17,4 @@ There are the following folders:
 - scripts: contains the Python and Matlab scripts used for analysis
 - output: plots and results of all the analyses
 
-Each folder contains its own README file.
+Each folder contains its own README file. While running the MATLAB scripts, please make sure your working directory is the main HGSOC-GROWTH-KINETICS directory; the relative paths are set with respect to this.
