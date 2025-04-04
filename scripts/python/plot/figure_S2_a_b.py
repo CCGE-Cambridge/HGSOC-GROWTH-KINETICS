@@ -56,7 +56,7 @@ for site, val in sites.items():
     plt.savefig(path_for_output + '/figure_S2_{}.png'.format(figure_labels[site]), bbox_inches='tight')
     plt.close()
 
-    # Get stats on the coefficient of variation of mean-logt1 and std-logt1
-    print('CV for {} for the mean of log t1 is {}'.format(site, np.std(np.exp(df['mean-logt1'])) / np.mean(np.exp(df['mean-logt1']))))
-    # print('CV for {} for the std of log t1 is {}'.format(site, np.std(df['std-logt1']) / np.mean(df['std-logt1'])))
+    # Get stats on the coefficient of variation of mean-logt1 and the RMSE stats
+    print('CV for {} for the mean of log t1 is {}'.format(site, np.std(np.exp(df['mu_est'])) / np.mean(np.exp(df['mu_est']))))
+    print('Median RMSE is {} (IQR: {} - {})'.format(df.rmse.quantile(0.5), df.rmse.quantile(0.25), df.rmse.quantile(0.75)))
 
