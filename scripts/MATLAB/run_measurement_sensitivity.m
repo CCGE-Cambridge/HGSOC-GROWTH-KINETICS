@@ -6,7 +6,7 @@ clear all
 clc 
 
 % Parameters
-data.TYPE = 'om';
+data.TYPE = 'ov';
 data.V0 = 1e-9;
 percent_noise = 10;
 n_evals = 20;
@@ -29,24 +29,30 @@ febeta = [];
 feq = [];
 sdbeta = [];
 sdq = [];
+rmses = [];
+max_noise = [];
+mean_noise = [];
+std_noise = [];
 for i = 1:n_evals
     disp(i);
     flag = 0;
     while flag < 1        
         noise = normrnd(0, percent_noise/100, [length(volumes),1]);
         data.volumes = volumes .* (1 + noise);
-        
-        % Check if all have an increase! Otherwise, this is a biased result as
+
+        % Check if all have an increase of at least 10%! Otherwise, this is a biased result as
         % they would not be included in the analysis (we would only include
-        % those with an increase in volumes)
-        diff = data.volumes(2:2:end) - data.volumes(1:2:end);
-        if min(diff) > 0
+        % those with an increase in volumes of at least 10%)
+        diff = (data.volumes(2:2:end) - data.volumes(1:2:end)) ./data.volumes(1:2:end);
+        if min(diff) > 0.1
             flag = 1;
         end 
     end 
-
+    fprintf('Mean, std, and max noise is %.2f %.2f %.2f \n', mean(abs(noise)), std(abs(noise)), max(abs(noise)));
+    
     % Fit the model
     [phi, PSI, stats, br] = fit_gompertz(data);
+    fprintf('RMSE is %e \n', stats.rmse);
     close();
 
     % Get and store mean and std of log(t1)
@@ -57,10 +63,15 @@ for i = 1:n_evals
     feq(i) = phi(2);
     sdbeta(i) = PSI(1,1);
     sdq(i) = PSI(2,2);
+    rmses(i) = stats.rmse;
+    max_noise(i) = max(abs(noise));
+    std_noise(i) = std(abs(noise));
+    mean_noise(i) = mean(abs(noise));
 end
 
 % Create a table with the results
-resultsTable = table(means', stds', febeta', feq', sdbeta', sdq' ,'VariableNames', {'mean-logt1', 'std-logt1', 'fe-logbeta', 'fe-logq', 'sd-logbeta', 'sd-logq'});
+resultsTable = table(means', stds', febeta', feq', sdbeta', sdq' ,rmses', mean_noise', std_noise', max_noise' ...
+    ,'VariableNames', {'mean-logt1', 'std-logt1', 'fe-logbeta', 'fe-logq', 'sd-logbeta', 'sd-logq', 'rmse', 'mean_noise', 'std_noise', 'max_noise'});
 
 % Write the table to a CSV file
 writetable(resultsTable, ['./output/sensitivity-analysis/measurement_' num2str(percent_noise) 'per_' data.TYPE '.csv']);
