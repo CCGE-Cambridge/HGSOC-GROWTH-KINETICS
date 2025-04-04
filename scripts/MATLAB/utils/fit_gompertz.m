@@ -60,7 +60,7 @@ function [phi_final, PSI_final, stats_final, br_final, y] = fit_gompertz(data, f
     end
 
     %% NLME (linearized)
-    options = statset('MaxIter', 5000, 'TolFun', 1e-9, 'TolX', 1e-9);
+    options = statset('MaxIter', 1000, 'TolFun', 1e-6, 'TolX', 1e-6);
     
     [phi_final, PSI_final, stats_final, br_final] = nlmefit(data.dt ,y ,data.ids,[], model, phi0, ...
         'RefineBeta0','off','ParamTransform',xform, 'Options', options, ...
