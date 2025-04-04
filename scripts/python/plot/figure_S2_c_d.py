@@ -43,10 +43,12 @@ for site, vmax in sites.items():
     plt.savefig(path_for_output + '/figure_S2_{}.png'.format(fig_names[site]), bbox_inches='tight')
     plt.close()
 
-    # Get stats on the coefficient of variation of mean-logt1 and std-logt1
-    print('CV for {} for the mean of log t1 is {}'.format(site, np.std(np.exp(df['mean-logt1'])) / np.mean(np.exp(df['mean-logt1']))))
+    # Get the estimated fe of log t1 from the fe of log q and log beta
+    df['mu_est'] = df['fe-logq'] - df['fe-logbeta']
+    # Get stats on the coefficient of variation of mean-logt1
+    print('CV for {} for the mean of log t1 is {}'.format(site, np.std(np.exp(df['mu_est'])) / np.mean(np.exp(df['mu_est']))))
 
     # Get stats on the coefficient of variation of mean-logt1 and std-logt1 for the choices above 5000 and 3000 cm3 for ovarian and omental
     indices = np.where(Vmaxs >= vmax)[0]
     df_ = df.iloc[indices]
-    print('CV for {} with vmax >= {} for the mean of log t1 is {}'.format(site, vmax, np.std(np.exp(df_['mean-logt1'])) / np.mean(np.exp(df_['mean-logt1']))))
+    print('CV for {} with vmax >= {} for the mean of log t1 is {}'.format(site, vmax, np.std(np.exp(df_['mu_est'])) / np.mean(np.exp(df_['mu_est']))))
