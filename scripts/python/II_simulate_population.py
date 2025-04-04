@@ -29,10 +29,10 @@ LIMIT_CA = 0.015 # ca125 detection limit (cm3)
 # beta is the Gompertz decay rate
 ovarian_params = {'vmax': 5000, # max volume -> determines K = log(Vmax/V0) where V0 = 1e-9
                   'ln_beta_mean': -5.7905, # mean of log(beta) from the NLME model
-                  'ln_beta_std': 0.8802,} # std of log(beta) from the NLME model
+                  'ln_beta_std': np.sqrt(0.8802),} # std of log(beta) from the NLME model. It actually gives us the variance.
 omental_params = {'vmax': 3000,
                   'ln_beta_mean': -5.5188,
-                  'ln_beta_std': 0.8799,}
+                  'ln_beta_std': np.sqrt(0.8799),}
 
 # sizes at metastasis from the 11 cases with growing lesions in both sites (got this from plot_gompertz_indi_from_matlab.py)
 pt_size_at_met = [6.58634689e-07, 7.49423904e-04, 1.39645166e-02, 8.36070562e-02,
