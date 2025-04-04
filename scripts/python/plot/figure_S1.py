@@ -1,5 +1,5 @@
 '''
-Script to just plot all the volumes from the 37 patients..
+Script to just plot all the volumes from the 34 patients..
 the ones we discard will be in red lines and red crosses/dots
 '''
 import pandas as pd
