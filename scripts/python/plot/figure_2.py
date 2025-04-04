@@ -1,16 +1,5 @@
 '''
-On Nora's and James' request, I am going to use a histogram/bar plot to see if 'small' and 'large tumours have different
-growth rates
-1. Plot fastest tvdt as a function of size (at the start of that tvdt segment)
-2. Plot tvdt wrt t0 as a function of size at t0
-3. Plot tvdt vs size in bins
-
-02/04/24 : Add snippet to only use those that are in 'keep'
-05/06/2024: This version is the latest one after cleaning up the code etc.
-10/06/2024: Running this before abstract submission - will output stats on SD etc. as well
-10/06/2024: Use only those cases with at least 10% change in volume
-17/06/2024: Update with some missed cases
-28/10/2024: final stuff for paper - just getting populatoin characteristics.
+TVDT plotting for the 34 cases 
 '''
 import pandas
 import numpy as np
